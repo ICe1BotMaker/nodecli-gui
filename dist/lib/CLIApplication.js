@@ -8,6 +8,10 @@ export class CLIApplication extends CLIGlobal {
     constructor() {
         super();
         this.components = [];
+        this.agent = {
+            x: 0,
+            y: 0
+        };
     }
     addComponent(component, x, y) {
         component.x = x;

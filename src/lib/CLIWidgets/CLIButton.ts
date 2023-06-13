@@ -1,7 +1,7 @@
 import { CLIGlobal } from '../CLIGlobal.js';
 
 /**
- * CLI Label
+ * CLI Button
  */
 export class CLIButton extends CLIGlobal {
     labelText: string;
@@ -10,6 +10,13 @@ export class CLIButton extends CLIGlobal {
         super();
 
         this.labelText = text;
+    }
+
+    /**
+     * @param {'pick' | 'select'} type
+     */
+    public on(type: string, event: Function) {
+        event();
     }
 
     public return() {

@@ -18,11 +18,16 @@ interface IComponent {
  */
 export class CLIApplication extends CLIGlobal {
     components: any[];
+    agent: object;
 
     public constructor() {
         super();
 
         this.components = [];
+        this.agent = {
+            x: 0,
+            y: 0
+        };
     }
 
     public addComponent(component: IComponent, x: number, y: number) {
