@@ -1,6 +1,6 @@
 {
   "name": "nodecli-gui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Try using cli like gui.",
   "main": "./dist/index.js",
   "scripts": {
