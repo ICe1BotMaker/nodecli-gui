@@ -1,18 +1,11 @@
 import chalk from 'chalk';
-import { Interface, createInterface, moveCursor } from 'readline';
+import { moveCursor } from 'readline';
 
 /**
  * CLI Global
  */
 export class CLIGlobal {
-    cli: Interface;
-
-    public constructor() {
-        // this.cli = createInterface({
-        //     input: process.stdin,
-        //     output: process.stdout,
-        // });
-    }
+    public constructor() {}
 
     public moveCursor(x: number, y: number) {
         moveCursor(process.stdout, x, y);
