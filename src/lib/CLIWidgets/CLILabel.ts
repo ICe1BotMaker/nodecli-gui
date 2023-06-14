@@ -4,10 +4,11 @@ import { CLIGlobal } from '../CLIGlobal.js';
  * CLI Label
  */
 export class CLILabel extends CLIGlobal {
-    labelText: string;
     id: string;
+    
+    labelText: string;
 
-    public constructor(text: string) {
+    public constructor({ text }) {
         super();
 
         this.labelText = text;
@@ -17,7 +18,9 @@ export class CLILabel extends CLIGlobal {
     public return() {
         return {
             type: `label`,
+
             id: this.id,
+            
             text: this.labelText
         };
     }

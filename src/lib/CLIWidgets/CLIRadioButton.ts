@@ -1,21 +1,30 @@
 import { CLIGlobal } from '../CLIGlobal.js';
 
 /**
- * CLI Button
+ * CLI RadioButton
  */
-export class CLIButton extends CLIGlobal {
+export class CLIRadioButton extends CLIGlobal {
     id: string;
-    
+
+    name: string;
+
     labelText: string;
+    beforeText: string;
 
     pickEvent: Function;
     selectEvent: Function;
 
-    public constructor({ text }) {
+    toggleState: boolean;
+
+    public constructor({ text, name, bool = false}) {
         super();
 
         this.labelText = text;
         this.id = Math.random().toString(36).substring(2);
+        
+        this.toggleState = bool;
+        this.beforeText = `✅`;
+        this.name = name;
     }
 
     /**
@@ -28,14 +37,19 @@ export class CLIButton extends CLIGlobal {
 
     public return() {
         return {
-            type: `button`,
+            type: `radiobutton`,
 
             id: this.id,
 
+            name: this.name,
+
             text: this.labelText,
-            
+            beforeText: this.beforeText,
+
             pickEvent: this.pickEvent,
-            selectEvent: this.selectEvent
+            selectEvent: this.selectEvent,
+
+            toggleState: this.toggleState
         };
     }
 }

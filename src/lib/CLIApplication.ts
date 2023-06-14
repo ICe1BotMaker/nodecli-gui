@@ -15,7 +15,11 @@ interface IComponent {
 
 interface IAgent {
     x: number;
-    y: number;
+}
+
+interface IObj {
+    id: string;
+    type: string;
 }
 
 /**
@@ -30,28 +34,53 @@ export class CLIApplication extends CLIGlobal {
 
         this.components = [];
         this.agent = {
-            x: 0,
-            y: 0
+            x: 0
         };
     }
 
-    public delete(obj: any) {
+    public find(obj: IObj) {
+        let result: number;
+        
         this.components.forEach((component, idx) => {
-            if (component.id === obj.id) {
-                delete this.components[idx];
-            }
+            if (component.id === obj.id) result = idx;
         });
+
+        return result;
     }
 
-    public editText(obj: any, text: string) {
-        this.components.forEach((component, idx) => {
-            if (component.id === obj.id) {
-                this.components[idx].text = text;
-            }
-        });
+    public remove(obj: IObj) {
+        this.components.splice(this.find(obj), 1);
     }
 
-    public addComponent(component: IComponent, x: number, y: number) {
+    public modifyText(obj: IObj, { text }) {
+        this.components[this.find(obj)].text = text;
+    }
+
+    public setBeforeText(obj: IObj, { text }) {
+        if (obj.type === `checkbox`) {
+            this.components[this.find(obj)].beforeText = text;
+        }
+    }
+
+    public selectedItems(type: string = `checkbox`, { name } = { name: undefined }) {
+        let result: any[] = [];
+        
+        this.components.forEach((component, idx) => {
+            if (type === `checkbox`) {
+                if (component.type === `checkbox` && component.toggleState) {
+                    result = [...result, component];
+                }
+            } else if (type === `radiobutton`) {
+                if (component.type === `radiobutton` && component.toggleState && component.name === name) {
+                    result = [...result, component];
+                }
+            }
+        });
+
+        return result;
+    }
+
+    public addComponent(component: IComponent, { x, y }: IComponent) {
         component.x = x;
         component.y = y;
 
@@ -63,17 +92,31 @@ export class CLIApplication extends CLIGlobal {
         process.stdin.setEncoding(`utf-8`);
 
         process.stdin.on(`data`, (key: string) => {
-            if (key === `\u0003`) process.exit();
+            if (key === `\u0003`) {
+                console.clear();
+                process.stdout.write(`\x1B[?25h`);
+                process.exit();
+            }
 
             if (key === `\u001b[D`) this.agent.x -= 1;
             if (key === `\u001B[C`) this.agent.x += 1;
-            if (key === `\u001B[A`) this.agent.y -= 1;
-            if (key === `\u001B[B`) this.agent.y += 1;
 
             if (key === `\r` || key === `\n`) {
                 this.components.forEach((component, idx) => {
                     if (this.agent.x === idx) {
-                        if (component?.selectEvent) component.selectEvent();
+                        if (component?.selectEvent) {
+                            component.selectEvent();
+
+                            if (component?.type === `checkbox`) {
+                                component.toggleState = !component.toggleState;
+                            } else if (component?.type === `radiobutton`) {
+                                this.selectedItems(`radiobutton`, { name: component.name }).forEach(item => {
+                                    item.toggleState = false;
+                                });
+
+                                component.toggleState = true;
+                            }
+                        }
                     }
                 });
             }
@@ -88,18 +131,22 @@ export class CLIApplication extends CLIGlobal {
             console.clear();
             
             this.components.forEach((component, idx) => {
-                this.moveCursor(component.x, component.y);
+                this.moveCursor({ x: component.x, y: component.y });
 
-                if (this.agent.x === idx) {
-                    if (component?.pickEvent || component?.selectEvent) {
-                        console.log(chalk.italic.bold.overline.underline(component.text));
+                if (this.agent.x === idx && (component?.pickEvent || component?.selectEvent)) {
+                    if ([`checkbox`, `radiobutton`].includes(component.type) && component?.toggleState === true) {
+                        console.log(`${component.beforeText}${chalk.italic.bold.overline.underline(component.text)}`);
                     } else {
-                        console.log(component.text);
+                        console.log(chalk.italic.bold.overline.underline(component.text));
                     }
                     
                     if (component?.pickEvent) component.pickEvent();
                 } else {
-                    console.log(component.text);
+                    if ([`checkbox`, `radiobutton`].includes(component.type) && component?.toggleState === true) {
+                        console.log(`${component.beforeText}${component.text}`);
+                    } else {
+                        console.log(component.text);
+                    }
                 }
             });
         }, time);

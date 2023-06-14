@@ -1,21 +1,27 @@
 import { CLIGlobal } from '../CLIGlobal.js';
 
 /**
- * CLI Button
+ * CLI CheckBox
  */
-export class CLIButton extends CLIGlobal {
+export class CLICheckBox extends CLIGlobal {
     id: string;
-    
+
     labelText: string;
+    beforeText: string;
 
     pickEvent: Function;
     selectEvent: Function;
 
-    public constructor({ text }) {
+    toggleState: boolean;
+    
+    public constructor({ text, bool = false }) {
         super();
 
         this.labelText = text;
         this.id = Math.random().toString(36).substring(2);
+        
+        this.toggleState = bool;
+        this.beforeText = `✅`;
     }
 
     /**
@@ -28,14 +34,17 @@ export class CLIButton extends CLIGlobal {
 
     public return() {
         return {
-            type: `button`,
+            type: `checkbox`,
 
             id: this.id,
 
             text: this.labelText,
-            
+            beforeText: this.beforeText,
+
             pickEvent: this.pickEvent,
-            selectEvent: this.selectEvent
+            selectEvent: this.selectEvent,
+
+            toggleState: this.toggleState
         };
     }
 }

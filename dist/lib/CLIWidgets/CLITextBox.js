@@ -1,11 +1,12 @@
 import { CLIGlobal } from '../CLIGlobal.js';
 /**
- * CLI Button
+ * CLI TextBox
  */
-export class CLIButton extends CLIGlobal {
-    constructor({ text }) {
+export class CLITextBox extends CLIGlobal {
+    constructor({ text = `` }) {
         super();
-        this.labelText = text;
+        this.text = text;
+        this.focus = false;
         this.id = Math.random().toString(36).substring(2);
     }
     /**
@@ -19,11 +20,12 @@ export class CLIButton extends CLIGlobal {
     }
     return() {
         return {
-            type: `button`,
+            type: `textbox`,
             id: this.id,
-            text: this.labelText,
+            text: this.text,
             pickEvent: this.pickEvent,
-            selectEvent: this.selectEvent
+            selectEvent: this.selectEvent,
+            focus: this.focus
         };
     }
 }

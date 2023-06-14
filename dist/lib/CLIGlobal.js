@@ -5,10 +5,10 @@ import { moveCursor } from 'readline';
  */
 export class CLIGlobal {
     constructor() { }
-    moveCursor(x, y) {
+    moveCursor({ x, y }) {
         moveCursor(process.stdout, x, y);
     }
-    throwError(code, message) {
+    throwError({ code, message }) {
         throw new Error(`(code: ${code}) ${chalk.redBright.underline(message)}`);
     }
 }
