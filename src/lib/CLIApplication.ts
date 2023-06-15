@@ -56,12 +56,6 @@ export class CLIApplication extends CLIGlobal {
         this.components[this.find(obj)].text = text;
     }
 
-    public setBeforeText(obj: IObj, { text }) {
-        if (obj.type === `checkbox`) {
-            this.components[this.find(obj)].beforeText = text;
-        }
-    }
-
     public selectedItems(type: string = `checkbox`, { name } = { name: undefined }) {
         let result: any[] = [];
         

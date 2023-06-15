@@ -16,14 +16,14 @@ export class CLIRadioButton extends CLIGlobal {
 
     toggleState: boolean;
 
-    public constructor({ text, name, bool = false}) {
+    public constructor({ text, name, bool = false, beforeText = `✅` }) {
         super();
 
         this.labelText = text;
         this.id = Math.random().toString(36).substring(2);
         
         this.toggleState = bool;
-        this.beforeText = `✅`;
+        this.beforeText = beforeText;
         this.name = name;
     }
 

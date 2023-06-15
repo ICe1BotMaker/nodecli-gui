@@ -3,12 +3,12 @@ import { CLIGlobal } from '../CLIGlobal.js';
  * CLI CheckBox
  */
 export class CLICheckBox extends CLIGlobal {
-    constructor({ text, bool = false }) {
+    constructor({ text, bool = false, beforeText = `✅` }) {
         super();
         this.labelText = text;
         this.id = Math.random().toString(36).substring(2);
         this.toggleState = bool;
-        this.beforeText = `✅`;
+        this.beforeText = beforeText;
     }
     /**
      * @param {'pick' | 'select'} type

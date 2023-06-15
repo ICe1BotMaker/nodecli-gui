@@ -27,11 +27,6 @@ export class CLIApplication extends CLIGlobal {
     modifyText(obj, { text }) {
         this.components[this.find(obj)].text = text;
     }
-    setBeforeText(obj, { text }) {
-        if (obj.type === `checkbox`) {
-            this.components[this.find(obj)].beforeText = text;
-        }
-    }
     selectedItems(type = `checkbox`, { name } = { name: undefined }) {
         let result = [];
         this.components.forEach((component, idx) => {

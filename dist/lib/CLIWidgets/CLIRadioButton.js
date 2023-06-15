@@ -3,12 +3,12 @@ import { CLIGlobal } from '../CLIGlobal.js';
  * CLI RadioButton
  */
 export class CLIRadioButton extends CLIGlobal {
-    constructor({ text, name, bool = false }) {
+    constructor({ text, name, bool = false, beforeText = `✅` }) {
         super();
         this.labelText = text;
         this.id = Math.random().toString(36).substring(2);
         this.toggleState = bool;
-        this.beforeText = `✅`;
+        this.beforeText = beforeText;
         this.name = name;
     }
     /**

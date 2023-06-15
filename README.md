@@ -8,29 +8,55 @@ Try using cli like gui.
 $ npm install nodecli-gui
 ```
 
-### Usage
+### Todos App
 
 ```js
 import chalk from 'chalk';
 
-import { CLIApplication, CLIButton, CLILabel } from 'nodecli-gui';
+import { CLIApplication, CLIButton, CLICheckBox, CLILabel } from 'nodecli-gui';
 
 const app = new CLIApplication();
 
 app.setWindowTitle(`Test Application`);
 app.setWindowIcon(`xampp-icon.ico`);
 
-const label1 = new CLILabel(chalk.bgBlueBright.whiteBright(` Lorem ipsum dolor simit. `));
-app.addComponent(label1.return(), 1, 1);
 
-const button1 = new CLIButton(chalk.bgWhiteBright.black(` button `));
-button1.on(`pick`, () => {
-    console.log(` picked button1 object. `);
+// Title
+const title1 = new CLILabel({ text: `[ Todo List ]` });
+app.addComponent(title1.return(), { x: 1, y: 1 });
+
+
+// todos
+let todosText = [`To complete all tasks`, `Finish handling exceptions.`, `Commit to git.`];
+
+todosText.forEach((text, idx) => {
+    const item = new CLICheckBox({ text: `- ${text}`, beforeText: `✅ `, bool: idx === 2 });
+    item.on(`select`);
+    app.addComponent(item.return(), { x: 1, y: 1 });
 });
-button1.on(`select`, () => {
-    console.log(` enter button1 object. `);
+
+
+// modify button
+const modify = new CLIButton({ text: chalk.bgBlueBright(` modify `) });
+modify.on(`select`, () => {
+    app.selectedItems().forEach(item => {
+        app.modifyText(item, { text: `- test todo` });
+    });
 });
-app.addComponent(button1.return(), 28, -1);
+
+app.addComponent(modify.return(), { x: 1, y: 1 });
+
+
+// remove button
+const remove = new CLIButton({ text: chalk.bgRedBright(` remove `) });
+remove.on(`select`, () => {
+    app.selectedItems().forEach(item => {
+        app.remove(item);
+    });
+});
+
+app.addComponent(remove.return(), { x: 10, y: -1 });
+
 
 app.show(10);
 ```
