@@ -1,6 +1,24 @@
-# Node CLI GUI
+# NodeCLI - GUI
 
-Try using cli like gui.
+From now on, you can use **CLI** as quickly and easily as **GUI**.
+
+### Introduce
+
+The reason why I made this project.
+
+- [NodeOS](https://github.com/ICe1BotMaker/node-os). It's a project to create an operating system in a **Node** execution environment, and I made it because I thought it would be better to implement **CLI** in a similar way as **GUI**.
+
+Similarities to GUI?
+
+- You can control it with a keyboard.
+
+- It contains various widgets.
+
+- Allows the user to know what function it is.
+
+### Preview Run Results
+
+![intro](./imgs/intro.gif)
 
 ### Installation
 
@@ -8,7 +26,9 @@ Try using cli like gui.
 $ npm install nodecli-gui
 ```
 
-### Todos App
+### Examples
+
+Todo App:
 
 ```js
 import chalk from 'chalk';

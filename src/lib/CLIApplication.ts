@@ -4,6 +4,8 @@ import { readFileSync, writeFileSync } from 'fs';
 
 import { CLIGlobal } from './CLIGlobal.js';
 
+import { CLIRadioButton } from './CLIWidgets/CLIRadioButton.js';
+
 interface IComponent {
     type: string;
     text: string;
@@ -109,6 +111,8 @@ export class CLIApplication extends CLIGlobal {
                                 });
 
                                 component.toggleState = true;
+                            } else if (component?.type === `combobox`) {
+                                component.toggleState = !component.toggleState;
                             }
                         }
                     }
@@ -127,9 +131,11 @@ export class CLIApplication extends CLIGlobal {
             this.components.forEach((component, idx) => {
                 this.moveCursor({ x: component.x, y: component.y });
 
-                if (this.agent.x === idx && (component?.pickEvent || component?.selectEvent)) {
+                if (this.agent.x === idx && (component?.pickEvent || component?.selectEvent || component?.changeEvent)) {
                     if ([`checkbox`, `radiobutton`].includes(component.type) && component?.toggleState === true) {
                         console.log(`${component.beforeText}${chalk.italic.bold.overline.underline(component.text)}`);
+                    } else if (component?.type === `combobox` && component?.toggleState === true) {
+                        console.log(`${component.text} [1]`);
                     } else {
                         console.log(chalk.italic.bold.overline.underline(component.text));
                     }
