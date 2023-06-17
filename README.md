@@ -18,7 +18,7 @@ Similarities to GUI?
 
 ### Preview Run Results
 
-![intro](./imgs/intro.gif)
+<img src="./imgs/intro.gif" style="width: 500px">
 
 ### Installation
 
