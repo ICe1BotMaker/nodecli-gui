@@ -3,13 +3,19 @@ import { CLIGlobal } from '../CLIGlobal.js';
  * CLI ComboBox
  */
 export class CLIComboBox extends CLIGlobal {
-    constructor({ text, bool, beforeText = `✅` }) {
+    constructor({ text, bool = false, beforeText = `✅` }) {
         super();
         this.labelText = text;
-        this.id = Math.random().toString(36).substring(2);
+        this.id = this.generateId();
         this.items = [];
         this.toggleState = bool;
         this.beforeText = beforeText;
+    }
+    addItem(item, { x = 0, y = 0 }) {
+        item.name = this.id;
+        item.x = x;
+        item.y = y;
+        this.items = [...this.items, item];
     }
     /**
      * @param {'pick' | 'select' | 'change'} type

@@ -24,4 +24,8 @@ export class CLIGlobal {
     public throwError({ code, message }: IThrowError) {
         throw new Error(`(code: ${code}) ${chalk.redBright.underline(message)}`);
     }
+
+    public generateId() {
+        return Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+    }
 }

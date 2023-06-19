@@ -4,8 +4,6 @@ import { readFileSync, writeFileSync } from 'fs';
 
 import { CLIGlobal } from './CLIGlobal.js';
 
-import { CLIRadioButton } from './CLIWidgets/CLIRadioButton.js';
-
 interface IComponent {
     type: string;
     text: string;
@@ -20,8 +18,8 @@ interface IAgent {
 }
 
 interface IObj {
-    id: string;
-    type: string;
+    id?: string;
+    name?: string;
 }
 
 /**
@@ -44,7 +42,11 @@ export class CLIApplication extends CLIGlobal {
         let result: number;
         
         this.components.forEach((component, idx) => {
-            if (component.id === obj.id) result = idx;
+            if (obj?.name) {
+                if (component.name === obj.name) result = idx;
+            } else if (obj?.id) {
+                if (component.id === obj.id) result = idx;
+            }
         });
 
         return result;
@@ -76,7 +78,7 @@ export class CLIApplication extends CLIGlobal {
         return result;
     }
 
-    public addComponent(component: IComponent, { x, y }: IComponent) {
+    public addComponent(component: IComponent, { x = 0, y = 0 }) {
         component.x = x;
         component.y = y;
 
@@ -98,6 +100,14 @@ export class CLIApplication extends CLIGlobal {
             if (key === `\u001B[C`) this.agent.x += 1;
 
             if (key === `\r` || key === `\n`) {
+                this.components.forEach(component => {
+                    if (component?.type === `combobox` && this.find({ name: component.id }) === undefined) {
+                        component.items.forEach(item => {
+                            this.addComponent(item, { x: item.x, y: item.y });
+                        });
+                    }
+                });
+
                 this.components.forEach((component, idx) => {
                     if (this.agent.x === idx) {
                         if (component?.selectEvent) {
@@ -135,7 +145,7 @@ export class CLIApplication extends CLIGlobal {
                     if ([`checkbox`, `radiobutton`].includes(component.type) && component?.toggleState === true) {
                         console.log(`${component.beforeText}${chalk.italic.bold.overline.underline(component.text)}`);
                     } else if (component?.type === `combobox` && component?.toggleState === true) {
-                        console.log(`${component.text} [1]`);
+                        console.log(chalk.italic.bold.overline.underline(component.text));
                     } else {
                         console.log(chalk.italic.bold.overline.underline(component.text));
                     }

@@ -15,7 +15,7 @@ export class CLIButton extends CLIGlobal {
         super();
 
         this.labelText = text;
-        this.id = Math.random().toString(36).substring(2);
+        this.id = this.generateId();
     }
 
     /**

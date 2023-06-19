@@ -17,14 +17,22 @@ export class CLIComboBox extends CLIGlobal {
 
     items: any[];
 
-    public constructor({ text, bool, beforeText = `✅` }) {
+    public constructor({ text, bool = false, beforeText = `✅` }) {
         super();
 
         this.labelText = text;
-        this.id = Math.random().toString(36).substring(2);
+        this.id = this.generateId();
         this.items = [];
         this.toggleState = bool;
         this.beforeText = beforeText;
+    }
+
+    public addItem(item: any, { x = 0, y = 0 }) {
+        item.name = this.id;
+        item.x = x;
+        item.y = y;
+        
+        this.items = [...this.items, item];
     }
 
     /**

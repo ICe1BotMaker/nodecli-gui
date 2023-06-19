@@ -12,7 +12,7 @@ export class CLIImage extends CLIGlobal {
             this.text = data;
             this.return();
         });
-        this.id = Math.random().toString(36).substring(2);
+        this.id = this.generateId();
     }
     async image(path, width, height) {
         const image = await this.Jimp.default.read(path);

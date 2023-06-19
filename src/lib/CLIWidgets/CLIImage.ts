@@ -21,7 +21,7 @@ export class CLIImage extends CLIGlobal {
             this.text = data;
             this.return();
         });
-        this.id = Math.random().toString(36).substring(2);
+        this.id = this.generateId();
     }
 
     public async image(path: string, width: number, height: number) {

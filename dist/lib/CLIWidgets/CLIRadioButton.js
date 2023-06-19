@@ -6,7 +6,7 @@ export class CLIRadioButton extends CLIGlobal {
     constructor({ text, name, bool = false, beforeText = `✅` }) {
         super();
         this.labelText = text;
-        this.id = Math.random().toString(36).substring(2);
+        this.id = this.generateId();
         this.toggleState = bool;
         this.beforeText = beforeText;
         this.name = name;
