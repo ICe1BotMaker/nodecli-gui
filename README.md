@@ -1,4 +1,4 @@
-# NodeCLI - GUI 
+# NodeCLI - GUI
 
 From now on, you can use **CLI** as quickly and easily as **GUI**.
 
